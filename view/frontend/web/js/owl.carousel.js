@@ -308,10 +308,18 @@ if (typeof Object.create !== "function") {
                 roundPages = 0,
                 lastItem = base.itemsAmount - base.options.items;
 
+            var posMultiplier;
+            if (window.matchMedia('(min-width: 820px)').matches) {
+                posMultiplier = 0.1;
+            }
+            else {
+                posMultiplier = 0;
+            }
+
             base.$owlItems.each(function (index) {
                 var $this = $(this);
                 $this
-                    .css({"width": base.itemWidth})
+                    .css({"width": base.itemWidth, "left":Math.round(base.itemWidth * posMultiplier)})
                     .data("owl-item", Number(index));
 
                 if (index % base.options.items === 0 || index === lastItem) {
@@ -344,7 +352,13 @@ if (typeof Object.create !== "function") {
 
         calculateWidth : function () {
             var base = this;
-            base.itemWidth = Math.round(base.$elem.width() / base.options.items);
+            if (window.matchMedia('(min-width: 820px)').matches) {
+                base.itemWidth = Math.round(base.$elem.width() * 0.8 / base.options.items);
+            }
+            else
+            {
+                base.itemWidth = Math.round(base.$elem.width() / base.options.items);
+            }
         },
 
         max : function () {
